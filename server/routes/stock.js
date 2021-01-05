@@ -2,9 +2,21 @@ const router = require('express').Router()
 let Stock = require('../models/stock.models')
 
 router.get('/', (req, res) => {
-    Stock.find()
+    Stock.find({}).sort({ watchlist: 1 })
     .then(stocks => res.json(stocks))
     .catch(err => console.log(err))
+})
+
+router.get('/user-stocks/:user', (req, res) => {
+    Stock.find({ user: req.params.user})
+    .then((stocks) => res.json(stocks))
+    .catch(err => res.json(err))
+})
+
+router.delete('/delete/:id', (req, res) => {
+    Stock.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Successfully Deleted Stock!'))
+    .catch(err => res.json(err))
 })
 
 router.post('/add-stock', (req, res) => {
@@ -14,6 +26,7 @@ router.post('/add-stock', (req, res) => {
     const stop = req.body.stop
     const description = req.body.description
     const date = Date.parse(req.body.date)
+
     const newStock = new Stock({user, symbol, target, stop, description, date})
 
     newStock.save()

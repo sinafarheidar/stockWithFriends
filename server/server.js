@@ -2,11 +2,15 @@ const stockRouter = require('./routes/stock')
 const userRouter = require('./routes/user')
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors');
+
 require('dotenv').config()
 const app = express()
 
-app.use(express.json())
 const port = process.env.port || 5000
+
+app.use(cors())
+app.use(express.json())
 
 mongoose.connect(process.env.ATLAS_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 const connection = mongoose.connection

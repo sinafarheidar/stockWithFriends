@@ -7,10 +7,11 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
-router.post('/new-user', (req, res) => {
+router.post('/add', (req, res) => {
     const username = req.body.username
+    const watchlist = req.body.watchlist
 
-    const createdUser = new User({username})
+    const createdUser = new User({username, watchlist})
 
     createdUser.save()
     .then(() => res.json('New user saved!'))
