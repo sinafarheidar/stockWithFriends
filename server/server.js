@@ -1,6 +1,7 @@
 const stockRouter = require('./routes/stock')
 const userRouter = require('./routes/user')
 const express = require('express')
+const path = require('path')
 const mongoose = require('mongoose')
 const cors = require('cors');
 
@@ -21,8 +22,10 @@ connection.once('open', function() {
 });
 
 
+
 app.use('/stock', stockRouter)
 app.use('/user', userRouter)
+
 app.listen(port, (req, res) => {
     console.log('Listening on Port: ' + port)
 })
