@@ -61,7 +61,7 @@ export default function StockTabs() {
   const [stocks, setStock] = useState([])
 
   useEffect(() => {
-      axios.get('http://localhost:5000/user/')
+      axios.get('https://stockwithfriends.netlify.app/user/')
       .then(res => setUsers(res.data))
       .catch(err => console.log(err))
       
