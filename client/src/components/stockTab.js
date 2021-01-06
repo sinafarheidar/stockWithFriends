@@ -61,11 +61,11 @@ export default function StockTabs() {
   const [stocks, setStock] = useState([])
 
   useEffect(() => {
-      axios.get('https://stockwithfriends.netlify.app/user/')
+      axios.get('https://stook-with-frens.herokuapp.com/user')
       .then(res => setUsers(res.data))
       .catch(err => console.log(err))
       
-      axios.get('http://localhost:5000/stock')
+      axios.get('http://stockwithfriends.netlify.app/stock')
       .then(res => setStock(res.data))
   }, [])
 
