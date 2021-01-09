@@ -8,10 +8,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import StockCard from './stockCard'
+import Grid from '@material-ui/core/Grid';
 
 import CreateStockModal from './createStockModal'
+import DeleteWatchlistModal from './deleteWatchlistModal';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,32 +62,19 @@ export default function StockTabs() {
   const [stocks, setStock] = useState([])
 
   useEffect(() => {
-      axios.get('https://stook-with-frens.herokuapp.com/user')
+      axios.get('http://localhost:5000/user')
       .then(res => setUsers(res.data))
       .catch(err => console.log(err))
       
-      axios.get('http://stockwithfriends.netlify.app/stock')
+      axios.get('http://localhost:5000/stock')
       .then(res => setStock(res.data))
   }, [])
-
-//   useEffect(() => {
-//     for (let i = 0; i < users.length; i++) {
-//       axios.get(`http://localhost:5000/stock/user-stocks/${users[i].username}`)
-//       .then(res => console.log(res.data))
-//       .catch(err => console.log(err))
-//     }
-// }, [])
-
 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const logStocks = () => {
-    console.log(stocks)
-    console.log(users)
-  }
 
 
   return (
@@ -114,17 +102,22 @@ export default function StockTabs() {
             return (
               <Paper>
               <TabPanel value={value} index={index}>
-                <Button style={{ margin: '10px' }} variant='outlined' color='secondary'>Delete {user.username}'s WatchList</Button>
+                <DeleteWatchlistModal username={user.username} id={user._id}></DeleteWatchlistModal>
+                <br></br>
                 <CreateStockModal username={user.username}></CreateStockModal>
                 <br></br>
                 <hr></hr>
+                <Grid container spacing={3}>
           {stocks.map(stock => {
             if (stock.user === user.username) {
               return (
+                <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
                 <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)}></StockCard>
+                </Grid>
               )
             }
           })}
+          </Grid>
       </TabPanel>
       </Paper>
             )

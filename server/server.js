@@ -16,13 +16,10 @@ mongoose.connect(process.env.ATLAS_URI, {useNewUrlParser: true, useUnifiedTopolo
 const connection = mongoose.connection
 
 connection.on('error', console.error.bind(console, 'connection error:'));
+
 connection.once('open', function() {
   console.log('MongoDB connection successful')
 });
-
-app.get('/', (req, res) => {
-  res.send('Hello from Express!')
-})
 
 app.use('/stock', stockRouter)
 app.use('/user', userRouter)
