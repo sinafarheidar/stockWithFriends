@@ -66,10 +66,8 @@ export default function UserModal() {
     }
 
     axios.post('http://localhost:5000/user/add', user)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-
-    window.location = '/'
+    .then(res => window.location = '/')
+    .catch(err => alert('Watchlist Name Taken'))
   }
   
   const body = (

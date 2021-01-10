@@ -21,6 +21,11 @@ connection.once('open', function() {
   console.log('MongoDB connection successful')
 });
 
+app.get('/', (req, res) => {
+  console.log('Hellooooooo')
+  res.send('Helloooo')
+})
+
 app.use('/stock', stockRouter)
 app.use('/user', userRouter)
 

@@ -20,14 +20,14 @@ router.delete('/delete/:id', (req, res) => {
 })
 
 router.post('/add-stock', (req, res) => {
-    const user = req.body.user
+    const watchlist = req.body.watchlist
     const symbol = req.body.symbol
     const target = req.body.target
     const stop = req.body.stop
     const description = req.body.description
     const date = Date.parse(req.body.date)
 
-    const newStock = new Stock({user, symbol, target, stop, description, date})
+    const newStock = new Stock({watchlist, symbol, target, stop, description, date})
 
     newStock.save()
     .then(() => res.json('stock added'))

@@ -50,7 +50,7 @@ export default function UserModal(props) {
 
     const date = mm + '-' + dd + '-' + yyyy;
 
-    const username = props.username
+    const watchlist = props.watchlist
     const changeSymbol = e => {
         setSymbol(e.target.value)
     }
@@ -79,7 +79,7 @@ export default function UserModal(props) {
         e.preventDefault()
 
         const stock = {
-            user: username,
+            watchlist: watchlist,
             symbol: symbol,
             target: target,
             stop: stop,
@@ -104,11 +104,11 @@ export default function UserModal(props) {
                     </Grid>
 
                     <Grid item xs={12} lg={6}>
-                        <TextField id="standard-basic" label="Target Price: 200" onChange={changeTarget} />
+                        <TextField id="standard-basic" type='number' label="Target Price: 200" onChange={changeTarget} />
                     </Grid>
 
                     <Grid item xs={12} lg={6}>
-                        <TextField id="standard-basic" label="Stop Price: 150" onChange={changeStop} />
+                        <TextField id="standard-basic" type='number' label="Stop Price: 150" onChange={changeStop} />
                     </Grid>
 
                     <Grid item xs={12} lg={12}>

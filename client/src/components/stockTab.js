@@ -62,11 +62,11 @@ export default function StockTabs() {
   const [stocks, setStock] = useState([])
 
   useEffect(() => {
-      axios.get('http://localhost:5000/user')
+    axios.get('http://localhost:5000/user')
       .then(res => setUsers(res.data))
       .catch(err => console.log(err))
-      
-      axios.get('http://localhost:5000/stock')
+
+    axios.get('http://localhost:5000/stock')
       .then(res => setStock(res.data))
   }, [])
 
@@ -75,7 +75,11 @@ export default function StockTabs() {
     setValue(newValue);
   };
 
-
+  const checkEmpty = () => {
+    if (users.length < 1) {
+      return <Typography>Welcome to Stock With Friends! Go ahead and create a new user at the top left of the page!</Typography>
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -89,40 +93,41 @@ export default function StockTabs() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-    
+          {checkEmpty()}
+          
           {users.map((user, index) => {
             return <Tab key={`${user._id}`} label={`${user.username}'s WatchList: ${user.watchlist}`} {...a11yProps(index)} />
           })
-          
+
           }
         </Tabs>
       </AppBar>
 
       {users.map((user, index) => {
-            return (
-              <Paper>
-              <TabPanel value={value} index={index}>
-                <DeleteWatchlistModal username={user.username} id={user._id}></DeleteWatchlistModal>
-                <br></br>
-                <CreateStockModal username={user.username}></CreateStockModal>
-                <br></br>
-                <hr></hr>
-                <Grid container spacing={3}>
-          {stocks.map(stock => {
-            if (stock.user === user.username) {
-              return (
-                <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
-                <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)}></StockCard>
-                </Grid>
-              )
-            }
-          })}
-          </Grid>
-      </TabPanel>
-      </Paper>
-            )
-          })
-          }
+        return (
+          <Paper>
+            <TabPanel value={value} index={index}>
+              <DeleteWatchlistModal username={user.username} id={user._id}></DeleteWatchlistModal>
+              <br></br>
+              <CreateStockModal watchlist={user.watchlist} username={user.username}></CreateStockModal>
+              <br></br>
+              <hr></hr>
+              <Grid container spacing={3}>
+                {stocks.map(stock => {
+                  if (stock.watchlist === user.watchlist) {
+                    return (
+                      <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
+                        <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)}></StockCard>
+                      </Grid>
+                    )
+                  }
+                })}
+              </Grid>
+            </TabPanel>
+          </Paper>
+        )
+      })
+      }
 
     </div>
   );
