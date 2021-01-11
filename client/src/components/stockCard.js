@@ -40,7 +40,7 @@ export default function StockCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        {/* <Button size="small" color='primary' variant='contained' href={`/stocks/${props.symbol}`}>More Info</Button> */}
+        <Button size="small" color='primary' variant='contained' href={`/stocks/${props.symbol}`}>More Info</Button>
         <DeleteStockModal id={props.id} stock={props.symbol}></DeleteStockModal>
       </CardActions>
     </Card>
