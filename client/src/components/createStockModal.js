@@ -25,7 +25,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
     paper: {
         position: 'absolute',
-        width: 400,
+        width: "40%",
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
@@ -99,19 +99,19 @@ export default function UserModal(props) {
             <Typography varient='h1' component='h2'>Add a New Stock to Your Watchlist {props.username}! - This will show up in your Watch List</Typography>
             <form onSubmit={submitStock}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12} s={12} md={6} lg={6} xl={6}>
                         <TextField id="standard-basic" label="Stock Symbol: AAPL" onChange={changeSymbol} />
                     </Grid>
 
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12} s={12} md={6} lg={6} xl={6}>
                         <TextField id="standard-basic" type='number' label="Target Price: 200" onChange={changeTarget} />
                     </Grid>
 
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12} s={12} md={6} lg={6} xl={6}>
                         <TextField id="standard-basic" type='number' label="Stop Price: 150" onChange={changeStop} />
                     </Grid>
 
-                    <Grid item xs={12} lg={12}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <TextField style={{ width: '100%' }} id="outlined-multiline-static" label="Description" multiline rows={4} variant="outlined" onChange={changeDescription} />
                     </Grid>
                 </Grid>
