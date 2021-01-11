@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect('mongodb+srv://sina:sina@stockwithfriends.ivjub.mongodb.net/stockWithFriends?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 const connection = mongoose.connection
 
 connection.on('error', console.error.bind(console, 'connection error:'));
