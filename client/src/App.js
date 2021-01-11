@@ -25,6 +25,7 @@ const theme = createMuiTheme({
 
 function App() {
   return (
+
     <Router>
       <ThemeProvider theme={theme}>
     <div className="App">
@@ -38,6 +39,7 @@ function App() {
     </div>
     </ThemeProvider>
     </Router>
+  
   );
 }
 
