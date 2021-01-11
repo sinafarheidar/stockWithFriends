@@ -51,15 +51,15 @@ export default function StockInfo() {
 
         axios.get(`https://finnhub.io/api/v1/stock/recommendation?symbol=${stock}&token=${finnKey}`)
         .then(res => setSellbuy(res.data[0]))
-        .catch(err => console.log(err))
+        .catch(err => alert(err))
 
         axios.get(`https://api.polygon.io/v1/meta/symbols/${stock}/company?apiKey=${polygonKey}`)
             .then(res => setStockinfo(res.data))
-            .catch(err => console.log(err))
+            .catch(err => alert(err))
 
         axios.get(`https://finnhub.io/api/v1/quote?symbol=${stock}&token=${finnKey}`)
             .then(res => setOpenclose(res.data))
-            .catch(err => console.log(err))
+            .catch(err => alert(err))
         
     }, [])
 
