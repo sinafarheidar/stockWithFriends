@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios'
+
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserModal() {
   const classes = useStyles();
+
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
@@ -55,10 +57,8 @@ export default function UserModal() {
     setOpen(false);
   };
 
-  const doIt = (e) => {
+  const postToDB = (e) => {
     e.preventDefault()
-    console.log(username)
-    console.log(watchList)
 
     const user = {
       username: username,
@@ -74,13 +74,13 @@ export default function UserModal() {
     <div style={modalStyle} className={classes.paper}>
       <Typography varient='h1' component='h2'>Create a New User - This will create a tab for your Watch List</Typography>
 
-      <form onSubmit={doIt}>
+      <form onSubmit={postToDB}>
       <Grid container spacing={4}>
-        <Grid item xs>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
         <TextField id="standard-basic" label="Name" onChange={changeUsername}/>
         </Grid>
 
-        <Grid item xs>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
         <TextField id="standard-basic" label="Watch List Name" onChange={changeWatchList}/>
         </Grid>
       </Grid>
