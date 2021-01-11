@@ -65,7 +65,7 @@ export default function UserModal() {
       watchlist: watchList
     }
 
-    axios.post('http://localhost:5000/user/add', user)
+    axios.post('https://stock-with-friends.herokuapp.com/user/add', user)
     .then(res => window.location = '/')
     .catch(err => alert('Watchlist Name Taken'))
   }
