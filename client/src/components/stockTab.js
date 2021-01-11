@@ -116,7 +116,7 @@ export default function StockTabs() {
                 {stocks.map(stock => {
                   if (stock.watchlist === user.watchlist) {
                     return (
-                      <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
+                      <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
                         <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)}></StockCard>
                       </Grid>
                     )
