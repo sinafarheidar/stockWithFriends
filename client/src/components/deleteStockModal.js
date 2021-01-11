@@ -37,7 +37,7 @@ export default function DeleteStockModal(props) {
   const deleteStock = (e) => {
       e.preventDefault()
 
-      axios.delete(`http://localhost:5000/stock/delete/${id}`)
+      axios.delete(`https://stock-with-friends.herokuapp.com/stock/delete/${id}`)
       .then(res => console.log(res))
       .catch(err => console.log(err))
 
