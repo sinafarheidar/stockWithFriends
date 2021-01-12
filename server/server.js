@@ -24,13 +24,20 @@ connection.once('open', function() {
 app.use('/stock', stockRouter)
 app.use('/user', userRouter)
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../client", "build"))
-  })
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
 }
+
+// for local env, use /client/public folder
+else {
+  app.use(express.static(path.join(__dirname, '/client/public')));
+}
+
+// server the client index.html file for all requests
+app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "./client/public/index.html"));
+});
+
 app.listen(process.env.PORT || 5000, (req, res) => {
     console.log('Listening')
 })
