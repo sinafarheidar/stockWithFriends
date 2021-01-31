@@ -87,7 +87,7 @@ export default function UserModal(props) {
             date: date
         }
 
-        axios.post('https://stock-with-friends.herokuapp.com/stock/add-stock', stock)
+        axios.post('http://localhost:8000/stock/add-stock', stock)
             .then(res => console.log(res))
             .catch(err => console.log(err))
 

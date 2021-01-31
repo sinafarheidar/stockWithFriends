@@ -39,15 +39,16 @@ export default function UserModal() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  const [username, setUsername] = useState('')
   const [watchList, setWatchList] = useState('')
+  const currentUser = JSON.parse(localStorage.getItem('user'))
+  const userId = currentUser._id
+  const userName = currentUser.name
 
-  const changeUsername = e => {
-    setUsername(e.target.value)
-  }
 
   const changeWatchList = e => {
     setWatchList(e.target.value)
+    console.log('Id: ', userId)
+    console.log('Name: ', userName)
   }
   const handleOpen = () => {
     setOpen(true);
@@ -60,25 +61,23 @@ export default function UserModal() {
   const postToDB = (e) => {
     e.preventDefault()
 
-    const user = {
-      username: username,
-      watchlist: watchList
+    const watchlist = {
+      name: watchList,
+      id: userId,
+      creator: userName
     }
 
-    axios.post('https://stock-with-friends.herokuapp.com/user/add', user)
+    axios.post('http://localhost:8000/watchlist/add', watchlist)
     .then(res => window.location = '/')
     .catch(err => alert('Watchlist Name Taken'))
   }
   
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <Typography varient='h1' component='h2'>Create a New User - This will create a tab for your Watch List</Typography>
+      <Typography varient='h1' component='h2'>Create a Watchlist - This will create a tab for your Watch List</Typography>
 
       <form onSubmit={postToDB}>
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-        <TextField id="standard-basic" label="Name" onChange={changeUsername}/>
-        </Grid>
 
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
         <TextField id="standard-basic" label="Watch List Name" onChange={changeWatchList}/>
@@ -92,7 +91,7 @@ export default function UserModal() {
 
   return (
     <div>
-      <Button color="inherit" onClick={handleOpen}>Create New User</Button>
+      <Button color="inherit" onClick={handleOpen}>Create New WatchList</Button>
       <Modal
         open={open}
         onClose={handleClose}

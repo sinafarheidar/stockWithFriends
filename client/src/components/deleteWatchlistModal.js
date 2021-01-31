@@ -37,7 +37,7 @@ export default function DeleteWatchlistModal(props) {
   const deleteUser = (e) => {
       e.preventDefault()
 
-      axios.delete(`https://stock-with-friends.herokuapp.com/user/delete-user/${id}`)
+      axios.delete(`http://localhost:8000/watchlist/delete-user/${id}`)
       .then(res => console.log(res))
       .catch(err => console.log(err))
 

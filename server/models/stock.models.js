@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 const stockSchema = new Schema({
     watchlist: {type: String, required: true},
+    id: {type: String, required: true},
     symbol: {type: String, required: true},
     target: {type: Number, required: false},
     stop: {type: Number, required: false},

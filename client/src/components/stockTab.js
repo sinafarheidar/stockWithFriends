@@ -58,15 +58,23 @@ const useStyles = makeStyles((theme) => ({
 export default function StockTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [users, setUsers] = useState([])
+  const [watchlists, setWatchlists] = useState([])
   const [stocks, setStock] = useState([])
+  const currentUser = JSON.parse(localStorage.getItem('user'))
+  const userName = currentUser.name
+  const userId = currentUser._id
+
+  let isCurrentUser = false
 
   useEffect(() => {
-    axios.get('https://stock-with-friends.herokuapp.com/user')
-      .then(res => setUsers(res.data))
+    axios.get('http://localhost:8000/watchlist')
+      .then(res => {
+        setWatchlists(res.data)
+        console.log(res)
+      })
       .catch(err => console.log(err))
 
-    axios.get('https://stock-with-friends.herokuapp.com/stock')
+    axios.get('http://localhost:8000/stock')
       .then(res => setStock(res.data))
   }, [])
 
@@ -76,11 +84,10 @@ export default function StockTabs() {
   };
 
   const checkEmpty = () => {
-    if (users.length < 1) {
+    if (watchlists.length < 1) {
       return <Typography>Welcome to Stock With Friends! Go ahead and create a new user at the top left of the page!</Typography>
     }
   }
-
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -95,26 +102,47 @@ export default function StockTabs() {
         >
           {checkEmpty()}
           
-          {users.map((user, index) => {
-            return <Tab key={`${user._id}`} label={`${user.username}'s WatchList: ${user.watchlist}`} {...a11yProps(index)} />
+          {watchlists.map((watchlist, index) => {
+            return <Tab key={`${watchlist.id}`} label={`${watchlist.creator}'s WatchList: ${watchlist.name}`} {...a11yProps(index)} />
           })
 
           }
         </Tabs>
       </AppBar>
 
-      {users.map((user, index) => {
-        return (
-          <Paper>
+      {watchlists.map((watchlist, index) => {
+        console.log('Watchlist Id: ', watchlist)
+        console.log('User Id: ', userId)
+        if (watchlist.id === userId) {
+          return (
+            <Paper>
+              <TabPanel value={value} index={index}>
+                <DeleteWatchlistModal username={watchlist.name} id={watchlist.id}></DeleteWatchlistModal>
+                <br></br>
+                <CreateStockModal watchlist={watchlist.watchlist} username={watchlist.name}></CreateStockModal>
+                <br></br>
+                <hr></hr>
+                <Grid container spacing={3}>
+                  {stocks.map(stock => {
+                    if (stock.watchlist === watchlist.watchlist) {
+                      return (
+                        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+                          <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)}></StockCard>
+                        </Grid>
+                      )
+                    }
+                  })}
+                </Grid>
+              </TabPanel>
+            </Paper>
+          )
+        } else {
+          return (
+            <Paper>
             <TabPanel value={value} index={index}>
-              <DeleteWatchlistModal username={user.username} id={user._id}></DeleteWatchlistModal>
-              <br></br>
-              <CreateStockModal watchlist={user.watchlist} username={user.username}></CreateStockModal>
-              <br></br>
-              <hr></hr>
               <Grid container spacing={3}>
                 {stocks.map(stock => {
-                  if (stock.watchlist === user.watchlist) {
+                  if (stock.watchlist === watchlist.watchlist) {
                     return (
                       <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                         <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)}></StockCard>
@@ -125,7 +153,8 @@ export default function StockTabs() {
               </Grid>
             </TabPanel>
           </Paper>
-        )
+          )
+        }
       })
       }
 

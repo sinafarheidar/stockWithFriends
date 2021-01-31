@@ -1,10 +1,10 @@
 const stockRouter = require('./routes/stock')
-const userRouter = require('./routes/user')
+const watchlistRouter = require('./routes/watchlist')
 const express = require('express')
 const path = require('path');
 const mongoose = require('mongoose')
 const cors = require('cors');
-
+const authRoutes = require('./routes/auth')
 require('dotenv').config()
 const app = express()
 
@@ -22,7 +22,8 @@ connection.once('open', function() {
 });
 
 app.use('/stock', stockRouter)
-app.use('/user', userRouter)
+app.use('/watchlist', watchlistRouter)
+app.use('/api', authRoutes) 
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -38,6 +39,6 @@ app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/public/index.html"));
 });
 
-app.listen(process.env.PORT || 5000, (req, res) => {
+app.listen(process.env.PORT || 8000, (req, res) => {
     console.log('Listening')
 })

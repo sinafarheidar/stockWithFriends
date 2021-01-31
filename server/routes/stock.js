@@ -2,7 +2,7 @@ const router = require('express').Router()
 let Stock = require('../models/stock.models')
 
 router.get('/', (req, res) => {
-    Stock.find({}).sort({ watchlist: 1 })
+    Stock.find({})
     .then(stocks => res.json(stocks))
     .catch(err => console.log(err))
 })
