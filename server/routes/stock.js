@@ -13,21 +13,24 @@ router.get('/user-stocks/:user', (req, res) => {
     .catch(err => res.json(err))
 })
 
-router.delete('/delete/:id', (req, res) => {
+router.delete('/delete/:id/:watchlist', (req, res) => {
     Stock.findByIdAndDelete(req.params.id)
     .then(() => res.json('Successfully Deleted Stock!'))
     .catch(err => res.json(err))
+
+    Stock.findOne({})
 })
 
 router.post('/add-stock', (req, res) => {
     const watchlist = req.body.watchlist
+    const id = req.body.id
     const symbol = req.body.symbol
     const target = req.body.target
     const stop = req.body.stop
     const description = req.body.description
     const date = Date.parse(req.body.date)
 
-    const newStock = new Stock({watchlist, symbol, target, stop, description, date})
+    const newStock = new Stock({watchlist, id, symbol, target, stop, description, date})
 
     newStock.save()
     .then(() => res.json('stock added'))

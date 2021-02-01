@@ -45,8 +45,8 @@ export default function StockInfo() {
     const [openclose, setOpenclose] = useState([])
     const [sellbuy, setSellbuy] = useState([])
 
-    const stock = window.location.href.substring(48)
-    // const stock = window.location.href.substring(29)
+    // const stock = window.location.href.substring(48)
+    const stock = window.location.href.substring(29)
 
     useEffect(() => {
 

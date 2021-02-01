@@ -61,49 +61,54 @@ export default function StockTabs() {
   const [watchlists, setWatchlists] = useState([])
   const [stocks, setStock] = useState([])
   const currentUser = JSON.parse(localStorage.getItem('user'))
-  const userName = currentUser.name
   const userId = currentUser._id
-
-  let isCurrentUser = false
 
   useEffect(() => {
     axios.get('http://localhost:8000/watchlist')
       .then(res => {
         setWatchlists(res.data)
-        console.log(res)
       })
       .catch(err => console.log(err))
 
     axios.get('http://localhost:8000/stock')
       .then(res => setStock(res.data))
+      .catch(err => console.log(err))
   }, [])
+  
 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  
   const checkEmpty = () => {
     if (watchlists.length < 1) {
-      return <Typography>Welcome to Stock With Friends! Go ahead and create a new user at the top left of the page!</Typography>
+      return true
     }
+    return false
   }
+
   return (
     <div className={classes.root}>
+      {checkEmpty() ? (
+        <div>Empty</div>
+      ) : (
+        null
+      )}
       <AppBar position="static" color="default">
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor="primary"
+          indicatorColor="secondary"
           textColor="primary"
           variant="scrollable"
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          {checkEmpty()}
           
           {watchlists.map((watchlist, index) => {
-            return <Tab key={`${watchlist.id}`} label={`${watchlist.creator}'s WatchList: ${watchlist.name}`} {...a11yProps(index)} />
+            return <Tab key={`${watchlist.name}`} label={`${watchlist.creator}'s WatchList: ${watchlist.name}`} {...a11yProps(index)} />
           })
 
           }
@@ -111,23 +116,19 @@ export default function StockTabs() {
       </AppBar>
 
       {watchlists.map((watchlist, index) => {
-        console.log('Watchlist Id: ', watchlist)
-        console.log('User Id: ', userId)
         if (watchlist.id === userId) {
           return (
-            <Paper>
+            <Paper style={{maxHeight: '700px', overflowY: 'scroll'}}>
               <TabPanel value={value} index={index}>
-                <DeleteWatchlistModal username={watchlist.name} id={watchlist.id}></DeleteWatchlistModal>
-                <br></br>
-                <CreateStockModal watchlist={watchlist.watchlist} username={watchlist.name}></CreateStockModal>
+                <CreateStockModal watchlist={watchlist.name} name={watchlist.creator}></CreateStockModal>
                 <br></br>
                 <hr></hr>
                 <Grid container spacing={3}>
                   {stocks.map(stock => {
-                    if (stock.watchlist === watchlist.watchlist) {
+                    if (stock.watchlist === watchlist.name) {
                       return (
                         <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-                          <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)}></StockCard>
+                          <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)} isCurrentUser={true}></StockCard>
                         </Grid>
                       )
                     }
@@ -138,18 +139,18 @@ export default function StockTabs() {
           )
         } else {
           return (
-            <Paper>
+            <Paper style={{maxHeight: '700px', overflowY: 'scroll'}}>
             <TabPanel value={value} index={index}>
               <Grid container spacing={3}>
-                {stocks.map(stock => {
-                  if (stock.watchlist === watchlist.watchlist) {
-                    return (
-                      <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-                        <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)}></StockCard>
-                      </Grid>
-                    )
-                  }
-                })}
+              {stocks.map(stock => {
+                    if (stock.watchlist === watchlist.name) {
+                      return (
+                        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+                          <StockCard symbol={stock.symbol} target={stock.target} id={stock._id} description={stock.description} stop={stock.stop} date={stock.date.substring(0, 10)} isCurrentUser={false}></StockCard>
+                        </Grid>
+                      )
+                    }
+                  })}
               </Grid>
             </TabPanel>
           </Paper>

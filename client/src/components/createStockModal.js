@@ -42,6 +42,8 @@ export default function UserModal(props) {
     const [target, setTarget] = useState(0)
     const [stop, setStop] = useState(0)
     const [description, setDescription] = useState('')
+    const currentUser = JSON.parse(localStorage.getItem('user'))
+    const userId = currentUser._id
 
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -50,7 +52,6 @@ export default function UserModal(props) {
 
     const date = mm + '-' + dd + '-' + yyyy;
 
-    const watchlist = props.watchlist
     const changeSymbol = e => {
         setSymbol(e.target.value)
     }
@@ -79,8 +80,9 @@ export default function UserModal(props) {
         e.preventDefault()
 
         const stock = {
-            watchlist: watchlist,
-            symbol: symbol,
+            watchlist: props.watchlist,
+            id: userId,
+            symbol: symbol.toUpperCase(),
             target: target,
             stop: stop,
             description: description,
@@ -123,7 +125,7 @@ export default function UserModal(props) {
 
     return (
         <div>
-            <Button color="primary" variant='outlined' onClick={handleOpen}>Add Stock to {props.username}'s watchlist</Button>
+            <Button color="primary" variant='outlined' onClick={handleOpen}>Add Stock to Your Watchlist: {props.watchlist}</Button>
             <Modal
                 open={open}
                 onClose={handleClose}

@@ -61,7 +61,7 @@ function Signup() {
         <Fragment>
             <ToastContainer />
 
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10%' }}>
                 {/* If User Information is Available Redirect to '/' */}
                 {isAuth() ? <Redirect to='/' /> : null}
                 <Paper elevation={3} style={{ backgroundColor: '#e0e3f4', borderRadius: '15px', width: '20%', height: '30%', padding: '1%', minHeight: '300px', minWidth: '300px' }}>
@@ -96,6 +96,11 @@ function Signup() {
                                 <Button variant="contained" color="primary" style={{ width: '100%', borderRadius: '30px', background: 'linear-gradient(90deg, #206aff, #c723ff 70%)' }} type='submit'>
                                     Sign Up
                         </Button>
+                            </Grid>
+
+                            <br />
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} >
+                                <Typography variant='body2'>Returning User? <Link to='/signin'>Sign In</Link></Typography>
                             </Grid>
 
 

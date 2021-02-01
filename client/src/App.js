@@ -36,12 +36,33 @@ const theme = createMuiTheme({
   },
 });
 
-function App() {
-  return (
+const currentUrl = window.location.href
 
+export default function App() {
+  
+
+      if (currentUrl === 'http://localhost:3000/signin' || currentUrl === 'http://localhost:3000/signup') {
+  return (
     <Router>
       <ThemeProvider theme={theme}>
-    <div className="App">
+    <div>
+    <Container maxWidth='lg'>
+      <Route exact path='/signin' component={SignIn} />
+      <Route exact path='/signup' component={SignUp} />
+      <PrivateRoute exact path='/' component={StockTabs} />
+      <PrivateRoute exact path='/stocks/:symbol' component={StockInfo} />
+      <PrivateRoute exact path='/private' component={Private}/>
+      <br></br>
+      </Container>
+    </div>
+    </ThemeProvider>
+    </Router>
+  ) 
+} else {
+  return (
+    <Router>
+      <ThemeProvider theme={theme}>
+    <div>
     <Container maxWidth='lg'>
       <Paper style={{ backgroundColor: '#f5f6f7', borderRadius: '15px'}}>
       <Nav></Nav>
@@ -56,8 +77,10 @@ function App() {
     </div>
     </ThemeProvider>
     </Router>
-  
-  );
+  )
+}
+    
+
+
 }
 
-export default App;

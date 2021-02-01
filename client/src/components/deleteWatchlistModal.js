@@ -45,7 +45,7 @@ export default function DeleteWatchlistModal(props) {
   }
   return (
     <div>
-      <Button variant='outlined' color='secondary' onClick={handleOpen}>Delete {props.username}'s WatchList</Button>
+      <Button variant='outlined' color='secondary' onClick={handleOpen}>Delete WatchList: {props.username}</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

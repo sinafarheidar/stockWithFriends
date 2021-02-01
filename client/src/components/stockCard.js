@@ -21,29 +21,57 @@ const useStyles = makeStyles({
 
 export default function StockCard(props) {
   const classes = useStyles();
+  const currentUser = JSON.parse(localStorage.getItem('user'))
 
-  return (
-    <div>
-    <br></br>
-    <Card className={classes.root} variant="outlined">
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {props.symbol}
-        </Typography>
-        <Typography variant="h5" component="h2">
-          Target: {props.target} <i>||</i> Stop: {props.stop} 
-        </Typography>
-        <Typography variant="body2" component="p">
-          Description: {props.description}
-          <br />
-          <i>Date Added: {props.date}</i>
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" color='primary' variant='contained' href={`/stocks/${props.symbol}`}>More Info</Button>
-        <DeleteStockModal id={props.id} stock={props.symbol}></DeleteStockModal>
-      </CardActions>
-    </Card>
-    </div>
-  );
+  console.log(props)
+  if (props.isCurrentUser) {
+    return (
+      <div>
+      <br></br>
+      <Card className={classes.root} variant="outlined">
+        <CardContent>
+          <Typography className={classes.title} color="textSecondary" gutterBottom>
+            {props.symbol}
+          </Typography>
+          <Typography variant="h5" component="h2">
+            Target: {props.target} <i>||</i> Stop: {props.stop} 
+          </Typography>
+          <Typography variant="body2" component="p">
+            Description: {props.description}
+            <br />
+            <i>Date Added: {props.date}</i>
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" color='primary' variant='contained' href={`/stocks/${props.symbol}`}>More Info</Button>
+          <DeleteStockModal id={props.id} watchlist={props.watchlist} stock={props.symbol}></DeleteStockModal>
+        </CardActions>
+      </Card>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+      <br></br>
+      <Card className={classes.root} variant="outlined">
+        <CardContent>
+          <Typography className={classes.title} color="textSecondary" gutterBottom>
+            {props.symbol}
+          </Typography>
+          <Typography variant="h5" component="h2">
+            Target: {props.target} <i>||</i> Stop: {props.stop} 
+          </Typography>
+          <Typography variant="body2" component="p">
+            Description: {props.description}
+            <br />
+            <i>Date Added: {props.date}</i>
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" color='primary' variant='contained' href={`/stocks/${props.symbol}`}>More Info</Button>
+        </CardActions>
+      </Card>
+      </div>
+    )
+  }
 }

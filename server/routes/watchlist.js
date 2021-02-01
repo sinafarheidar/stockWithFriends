@@ -7,6 +7,12 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
+router.get('/id/:id', (req, res) => {
+    Watchlist.find({id: req.params.id})
+    .then(watchlists => res.json(watchlists))
+    .catch(err => console.log(err))
+})
+
 router.post('/add', (req, res) => {
     const name = req.body.name
     const id = req.body.id
@@ -19,8 +25,8 @@ router.post('/add', (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
-router.delete('/delete-watchlist/:id', (req, res) => {
-    User.findByIdAndDelete(req.params.id)
+router.delete('/delete-watchlist/:name', (req, res) => {
+    Watchlist.deleteOne({name: req.params.name})
     .then(() => res.json('Watchlist successfully deleted'))
     .catch(err => res.json(err))
 })

@@ -9,7 +9,7 @@ import Icon from '@mdi/react'
 import { mdiChartTimelineVariantShimmer } from '@mdi/js';
 import Button from '@material-ui/core/Button';
 
-import CreateWatchlistModal from './createWatchlistModal'
+import EditWatchlistModal from './EditWatchlistModal'
 import { isAuth, signOut } from './helpers'
 
 const useStyles = makeStyles((theme) => ({
@@ -29,15 +29,14 @@ function Nav() {
 
   const handleSignOut = () => {
     signOut(() => {
-      console.log('Signing Out!')
-      window.location.href = '/signup'
+      window.location.href = '/signin'
     })
   }
 
   return (
     <div>
     {isAuth() ? <div className={classes.root}>
-    <AppBar position="static">
+    <AppBar position="static" style={{borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}}>
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" href='/'>
         <Icon path={mdiChartTimelineVariantShimmer}
@@ -50,7 +49,7 @@ function Nav() {
         <Typography variant="h6" className={classes.title}>
           Stock With Friends
         </Typography>
-        <CreateWatchlistModal></CreateWatchlistModal>
+        <EditWatchlistModal></EditWatchlistModal>
         <Button color="inherit" onClick={handleSignOut}>Sign Out</Button>
       </Toolbar>
     </AppBar>
